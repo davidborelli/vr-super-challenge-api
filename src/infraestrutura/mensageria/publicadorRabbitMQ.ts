@@ -1,4 +1,6 @@
 import amqp from 'amqplib'
+import dotenv from 'dotenv'
+dotenv.config()
 
 export async function criarPublicadorRabbitMQ(nomeFila: string) {
   const conexao = await amqp.connect(process.env.RABBITMQ_URL!)
