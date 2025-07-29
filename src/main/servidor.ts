@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import rotaNotificar from './rotas/rotaNotificar'
+import { iniciaConsumidorRabbitMQ } from '../infraestrutura/mensageria/consumidorRabbitMQ'
 
 dotenv.config()
 
@@ -14,4 +15,5 @@ const PORTA = process.env.PORTA || 3000
 
 app.listen(PORTA, () => {
   console.log(`🚀 Servidor rodando em http://localhost:${PORTA}`)
+  iniciaConsumidorRabbitMQ()
 })
