@@ -1,6 +1,8 @@
 import amqp from 'amqplib'
 import dotenv from 'dotenv'
+
 import { RepositorioNotificacaoEmMemoria } from '../repositorios/repositorioNotificacaoEmMemoria'
+import { criarPublicadorStatusRabbitMQ } from './publicadorStatusRabbitMQ'
 
 dotenv.config()
 
@@ -13,6 +15,10 @@ export async function iniciaConsumidorRabbitMQ() {
   await canal.assertQueue(nomeFila)
 
   console.log(`Aguardando mensagens em ${nomeFila}...`)
+
+  const publicarStatus = await criarPublicadorStatusRabbitMQ(
+    `fila.notificacao.status.davidBorelli`
+  )
 
   canal.consume(nomeFila, async (mensagem) => {
     if (!mensagem) return
@@ -28,6 +34,8 @@ export async function iniciaConsumidorRabbitMQ() {
     const status =
       Math.random() <= 0.2 ? 'FALHA_PROCESSAMENTO' : 'PROCESSADO_SUCESSO'
     repositorio.salvarStatus(mensagemId, status)
+
+    await publicarStatus(mensagemId, status)
 
     console.log(`Processamento finalizado para  ${mensagemId}: ${status}`)
     canal.ack(mensagem)
