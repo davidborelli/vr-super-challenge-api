@@ -1,10 +1,10 @@
-import express from "express";
+import express from 'express'
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const app = express()
+const PORT = process.env.PORT || 3000
 
-app.use(express.json());
+app.use(express.json())
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+  console.log(`Servidor rodando na porta ${PORT}`)
+})
