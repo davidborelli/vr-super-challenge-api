@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node dist/main/servidor.js",
     "dev": "ts-node-dev --respawn src/main/servidor.ts",
     "build": "tsc",
     "test": "jest",
